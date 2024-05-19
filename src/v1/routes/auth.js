@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
+const validation = require("../middleware/validation")
 const CryptoJS = require("crypto-js");
 const JWT = require("jsonwebtoken");
 require("dotenv").config();
@@ -22,13 +23,7 @@ router.post('/register',
             }
         });
     }),
-    (req, res, next) => {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-        next();
-    },
+    validation.validate,
     async (req, res) => {
         console.log(req.body);
         try {
