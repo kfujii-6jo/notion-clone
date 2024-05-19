@@ -28,5 +28,9 @@ router.post('/register',
 );
 
 // user login
+router.post("/login",
+    validation.validate,
+    userController.login,
+)
 
 module.exports = router;
